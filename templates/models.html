@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="mb-4">📈 Model Performance Comparison</h2>
+
+<table class="table table-striped table-bordered text-center align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>Model</th>
+            <th>Accuracy</th>
+            <th>Precision</th>
+            <th>Recall</th>
+            <th>F1 Score</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for model, metrics in model_metrics.items() %}
+        <tr>
+            <td>{{ model }}</td>
+            <td>{{ metrics["Accuracy"] }}</td>
+            <td>{{ metrics["Precision"] }}</td>
+            <td>{{ metrics["Recall"] }}</td>
+            <td>{{ metrics["F1 Score"] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3 class="mt-5">📊 Performance Graph</h3>
+<img src="{{ url_for('static', filename='plots/model_comparison.png') }}" class="img-fluid rounded shadow mt-3" alt="Model Comparison Plot">
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">🌸 Iris Flower Species Prediction</h2>
+
+<form method="POST" class="row g-3">
+    <div class="col-md-6">
+        <label for="sepal_length" class="form-label">Sepal Length (4.3–7.9):</label>
+        <input type="number" step="0.1" min="4.3" max="7.9" id="sepal_length" name="sepal_length"
+               class="form-control" required placeholder="e.g. 5.1" value="{{ sepal_length or '' }}">
+    </div>
+
+    <div class="col-md-6">
+        <label for="sepal_width" class="form-label">Sepal Width (2.0–4.4):</label>
+        <input type="number" step="0.1" min="2.0" max="4.4" id="sepal_width" name="sepal_width"
+               class="form-control" required placeholder="e.g. 3.5" value="{{ sepal_width or '' }}">
+    </div>
+
+    <div class="col-md-6">
+        <label for="petal_length" class="form-label">Petal Length (1.0–6.9):</label>
+        <input type="number" step="0.1" min="1.0" max="6.9" id="petal_length" name="petal_length"
+               class="form-control" required placeholder="e.g. 1.4" value="{{ petal_length or '' }}">
+    </div>
+
+    <div class="col-md-6">
+        <label for="petal_width" class="form-label">Petal Width (0.1–2.5):</label>
+        <input type="number" step="0.1" min="0.1" max="2.5" id="petal_width" name="petal_width"
+               class="form-control" required placeholder="e.g. 0.2" value="{{ petal_width or '' }}">
+    </div>
+
+    <div class="col-12">
+        <label for="model_choice" class="form-label">Model Choice</label>
+        <select name="model_choice" id="model_choice" class="form-select">
+            <option value="logitmodel" {% if model_selected == 'logitmodel' %}selected{% endif %}>Logistic Regression</option>
+            <option value="knnmodel" {% if model_selected == 'knnmodel' %}selected{% endif %}>KNN</option>
+            <option value="svmmodel" {% if model_selected == 'svmmodel' %}selected{% endif %}>SVM</option>
+        </select>
+    </div>
+
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary mt-3">Predict</button>
+    </div>
+</form>
+
+{% if result_prediction %}
+<hr>
+<h3 class="mt-4">🌼 Predicted Species: <span class="text-success">{{ result_prediction }}</span></h3>
+<img src="{{ url_for('static', filename=species_image) }}" alt="{{ result_prediction }}" width="200" class="img-thumbnail mb-3">
+
+<h4>📊 Prediction Confidence:</h4>
+<ul class="list-group mb-4">
+    {% for species, prob in zipped_predictions %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ species }}
+            <span class="badge bg-info text-dark">{{ '%.2f'|format(prob * 100) }}%</span>
+        </li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}
