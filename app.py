@@ -122,5 +122,5 @@ def models_page():
 
     return render_template("models.html", model_metrics=model_metrics, plot_path=plot_path)
 
-if __name__ == '__main__':
-    app.run(debug=True)
+#if __name__ == '__main__':
+ #   app.run(debug=True)
